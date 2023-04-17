@@ -15,7 +15,8 @@ app.get("/", (req, res)=>{
     res.sendFile("D:/react/server/app" + "/home.html")
 })
 app.post("/pushnotify", (req,res)=>{
-    let data = req.body
-    console.log(data)
+    let data = req.body;
+    console.log(data);
+    
     res.json(data);
 })            
