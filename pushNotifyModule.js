@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import serviceAccount from "./hieuhuynh-16f60-firebase-adminsdk-qc7lb-3e8d95a3b5.json" assert {type: 'json'};
+import serviceAccount from "./hieuhuynh-16f60-firebase-adminsdk-qc7lb-c191b4a44f.json" assert {type: 'json'};
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://hieuhuynh-16f60-default-rtdb.asia-southeast1.firebasedatabase.app"
