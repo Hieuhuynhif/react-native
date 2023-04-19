@@ -24,7 +24,7 @@ function getData()
 }
 async function sendData(formData)
 {
-    const response = await fetch("/pushnotify", {
+    const response = await fetch("http://localhost:3000/pushnotify", {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

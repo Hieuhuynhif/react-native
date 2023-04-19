@@ -1,43 +1,34 @@
-import { initializeApp, credential as _credential, messaging, database } from 'firebase-admin';
-import serviceAccount from "./hieuhuynh-16f60-firebase-adminsdk-qc7lb-384c57ffdb.json";
-
-initializeApp({
-    credential: _credential.cert(serviceAccount),
-    // The database URL depends on the location of the database
-    databaseURL: "https://hieuhuynh-16f60-default-rtdb.asia-southeast1.firebasedatabase.app/"
+import admin from "firebase-admin";
+import serviceAccount from "./hieuhuynh-16f60-firebase-adminsdk-qc7lb-3e8d95a3b5.json" assert {type: 'json'};
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://hieuhuynh-16f60-default-rtdb.asia-southeast1.firebasedatabase.app"
   });
-  
-  const uid = "some-id"
-function createCustomToken(uid)
+async function createCustomToken(uid)
 {
-    getAuth()
-    .createCustomToken(uid)
-    .then((customToken) => {
-    // Send token back to client
-
-    })
-    .catch((error) => {
-    console.log('Error creating custom token:', error);
-    });
-}
-async function push(token, title, body)
-{
-    pushmes = await messaging().send({
-        token: token,
-        notification: {
-            title: title,
-            body:   body,
-        },
-    });
-    return pushmes;
+    try
+    {
+        let token =  await admin.auth()
+        .createCustomToken(uid);
+        return token;
+    }
+    catch(error){
+        console.log('Error creating custom token:', error);
+    }
 }
 
-const pushNotify = (id, title, body)=>{
+async function pushNotify (user, title, body){
     var db = database();
-    var ref = db.ref(`user/${id}/token`);
-    ref.once("value", (snapshot)=>{
+    var ref = db.ref(`users/${user}`);
+    await ref.once("value", (snapshot)=>{
         console.log(snapshot.val());
-        push(snapshot.val().token, title, body);
+        messaging().send({
+            token: snapshot.val().token,
+            notification: {
+                title: title,
+                body:   body,
+            },
+        });
     });
 }
-export default {pushNotify,createCustomToken};
+export {createCustomToken, pushNotify};
