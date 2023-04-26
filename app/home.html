@@ -9,26 +9,31 @@
 </head>
 <body>
     <div class="body">
-
         <h3>Form sent message</h3>
-        <span class="user-name">Username</span>
-        <input type="text" placeholder="username" id="username">
-        <br>
-        <span class="user-name" >Password</span>
-        <input type="text" placeholder="password" id="password">
-        <br>
-        <span class="user-name" >To User</span>
-        <input type="text" placeholder="username" id="touser">
+        <div class="row">
+            <span class="user-name">Username</span>
+            <input type="text" placeholder="username" id="username">
+        </div>
+        <div class="row">
+            <span class="user-name" >Password</span>
+            <input type="text" placeholder="password" id="password">
+        </div>
+        <div class="row">
+            <span class="user-name" >To User</span>
+            <input type="text" placeholder="username" id="touser" onfocus="">
+        </div>
         <h4>message</h4>
-        <span class="user-name">Title</span>
-        <input type="text" placeholder="title" id="title">
-        <br>
-        <span class="user-name">Body</span>
-        <input type="text" placeholder="body" id="body">
-        <br>
+        <div class="row">
+            <span class="user-name">Title</span>
+            <input type="text" placeholder="title" id="title">
+        </div>
+        <div class="row">
+            <span class="user-name">Body</span>
+            <input type="text" placeholder="body" id="body">
+        </div>
         <button id="sendbutton">Send message</button>
         <h3>Notification</h3>
-        <div></div>
+        <div id="notify"></div>
 
     </div>
 </body>

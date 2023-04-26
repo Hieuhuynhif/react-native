@@ -1,8 +1,27 @@
 const sendButton = document.getElementById("sendbutton")
 
 sendButton.addEventListener('click', async()=>{
-    const data = await sendData(getData());
-    console.log(data);
+    const userName = document.getElementById("username").value
+    const passWord = document.getElementById("password").value
+    const toUser= document.getElementById("touser").value
+    const title= document.getElementById("title").value
+    const body= document.getElementById("body").value
+
+    if(!toUser || !userName || !passWord || !title || !body)
+    {
+        document.getElementById('notify').innerHTML = `Please fill the from`;
+    }
+    else
+    {
+        const data = await sendData(getData());
+        if(data.error)
+        {
+            document.getElementById('notify').innerHTML = `${data.error}`;
+        }
+        else {
+            document.getElementById('notify').innerHTML = "Successful";
+        }
+    }
 
 })
 function getData()
