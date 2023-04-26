@@ -5,12 +5,12 @@ const app = express();
 app.listen(3000, ()=>{
     console.log("Http-server is running on port 3000");
 })
-app.use(express.static("D:/Workspace/React/react-native/server/app"))
+app.use(express.static("D:/Workspace/React/server/app"))
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 app.get("/", (req, res)=>{
-    res.sendFile("D:/Workspace/React/react-native/server/app" + "/home.html")
+    res.sendFile("D:/Workspace/React/server/app" + "/home.html")
 })
 app.post("/pushnotify", async(req,res)=>{
     let data = req.body;
@@ -48,6 +48,10 @@ app.post("/pushnotify", async(req,res)=>{
                 console.error(error);
                 return res.json({error: "Receiver is not exist"})
             }
+        }
+        else
+        {
+            return res.json({token:customToken});
         }
     }
     else{
