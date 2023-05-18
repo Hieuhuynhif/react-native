@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="home.css">
-    <title>Server</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="home.css" />
+    <title>Home</title>
+  </head>
+  <body>
     <div class="body">
-        <h3>Form sent message</h3>
-        <div class="row">
-            <span class="user-name">Username</span>
-            <input type="text" placeholder="username" id="username">
+      <div class="sent-message">
+        <div class="user-name">
+          <div id="user-name"></div>
         </div>
-        <div class="row">
-            <span class="user-name" >Password</span>
-            <input type="text" placeholder="password" id="password">
+        <div class="detail">
+          <input
+            type="text"
+            class="to-user"
+            id="to-user"
+            placeholder="Reciever"
+          />
+          <textarea
+            placeholder="Message"
+            class="message"
+            id="message"
+          ></textarea>
         </div>
-        <div class="row">
-            <span class="user-name" >To User</span>
-            <input type="text" placeholder="username" id="touser" onfocus="">
+        <div class="submit">
+          <button id="submit">Send Message</button>
+          <button id="logout">Log out</button>
         </div>
-        <h4>message</h4>
-        <div class="row">
-            <span class="user-name">Title</span>
-            <input type="text" placeholder="title" id="title">
+        <div class="notify" id="notify"></div>
+      </div>
+      <div class="history">
+        <h3>History Messages</h3>
+        <div class="his"  id="his">
+          <p>(Empty)</p>
         </div>
-        <div class="row">
-            <span class="user-name">Body</span>
-            <input type="text" placeholder="body" id="body">
-        </div>
-        <button id="sendbutton">Send message</button>
-        <h3>Notification</h3>
-        <div id="notify"></div>
-
+      </div>
     </div>
-</body>
+  </body>
   <script src="home.js"></script>
 </html>

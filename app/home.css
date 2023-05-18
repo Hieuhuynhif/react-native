@@ -1,37 +1,117 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    color: #333;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-.body{
-    background-color: #ccc;
-    width: 30vw;
-    border-radius: 10px;
-    padding: 1rem;
+.body {
+  background-color: #28c76f;
+  width: 100vw;
+  height: 100vh;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.body h3{
-    margin: 10px;
+.sent-message {
+  width: 40vw;
+  height: 70vh;
+  background-color: #f3f3f3;
+  border-right: solid 1px #555;
+  border-radius: 10px;
+  margin-right: 1rem;
+  padding: 1rem;
 }
-
-.row{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 10px;
+.sent-message div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-.body div input{
-    width: 20vw;
-    padding: 0.3rem;
-    border-radius: 5px;
-    border: solid 1px black;
+.sent-message div input,
+.sent-message div textarea {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 10px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: "Courier New", Courier, monospace;
 }
-.body div input:focus{
-    outline: none;
+.sent-message div input:focus {
+  outline: none;
 }
-.user-name
-{
-    font-size: 1rem;
-    color: #333;
-    
+.sent-message div textarea:focus {
+  outline: none;
+}
+.sent-message div button {
+  width: 100%;
+  background-color: #222;
+  color: #f3f3f3;
+  height: 3rem;
+  border-radius: 5px;
+  padding: 1rem;
+  border: 1px solid none;
+}
+.sent-message div button:hover {
+  transform: scale(0.99);
+  transition: 0.1s;
+  cursor: pointer;
+}
+.sent-message div {
+  width: 100%;
+  padding: 1rem;
+}
+.sent-message .detail {
+  height: 65%;
+}
+.sent-message .detail .to-user {
+  height: 5%;
+}
+.sent-message .detail .message {
+  height: 50%;
+}
+.sent-message .user-name {
+  height: 5%;
+}
+.sent-message .submit {
+  height: 15%;
+}
+.sent-message .submit button {
+  margin-bottom: 1rem;
+}
+.sent-message .notify {
+  height: 15%;
+}
+.history {
+  width: 40vw;
+  background-color: #fff;
+  height: 70vh;
+  border-right: solid 1px #555;
+  border-radius: 10px;
+  padding: 1rem;
+  overflow: hidden;
+}
+.his{
+  margin-top: 1rem;
+  overflow-y: scroll;
+  padding-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  width: 100%;
+}
+.notify {
+  color: red;
+}
+.message-history {
+  font-size: 1rem;
+  margin-top: 0.8rem;
+  border: 1px solid #555;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.message-history h4 {
+  line-break: anywhere;
+  line-height: normal;
 }
