@@ -14,12 +14,29 @@
           <div id="user-name"></div>
         </div>
         <div class="detail">
-          <input
-            type="text"
-            class="to-user"
-            id="to-user"
-            placeholder="Reciever"
-          />
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              id="dropdown-type"
+            >
+              By Username
+            </button>
+            <ul class="dropdown-menu">
+              <li id="by-age"><a class="dropdown-item">By Age</a></li>
+              <li id="by-username"><a class="dropdown-item">By Username</a></li>
+            </ul>
+          </div>
+          <div class="type" id="type">
+            <input
+              type="text"
+              class="to-user"
+              id="to-user"
+              placeholder="Reciever"
+            />
+          </div>
           <textarea
             placeholder="Message"
             class="message"
@@ -34,11 +51,24 @@
       </div>
       <div class="history">
         <h3>History Messages</h3>
-        <div class="his"  id="his">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            id="select"
+          >
+            All Reciever
+          </button>
+          <ul class="dropdown-menu" id="dropdown-menu"></ul>
+        </div>
+        <div class="his" id="his">
           <p>(Empty)</p>
         </div>
       </div>
     </div>
   </body>
+  <script src="./bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="home.js"></script>
 </html>

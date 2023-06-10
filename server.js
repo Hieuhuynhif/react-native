@@ -43,14 +43,14 @@ app.post("/login", async (req, res) => {
   console.log(data);
   if (
     (userName == "web" && passWord == "web") ||
-    (userName == "mobile" && passWord == "mobile")
+    (userName == "mobile-1" && passWord == "mobile-1") ||
+    (userName == "mobile-2" && passWord == "mobile-2")
   ) {
     try {
       let customToken = await createCustomToken(userName);
       const session = req.session;
       session.username = userName;
       session.token = customToken;
-      console.log(session.token);
       return res.json({ customtoken: customToken });
     } catch (error) {
       console.error(error);
@@ -64,73 +64,136 @@ app.post("/login", async (req, res) => {
 app.post("/pushnotify", async (req, res) => {
   let data = req.body;
   const session = req.session;
+  let today = new Date();
+  let date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  let time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  let dateTime = date + " " + time;
 
-  try {
-    const tokenTouser = await admin
-      .database()
-      .ref(`users/${data.touser}`)
-      .once("value")
-      .then((snapshot) => {
-        console.log("User data: ", snapshot.val());
-        return snapshot.val().token;
-      });
-
+  if (data.touser) {
     try {
-      await admin.messaging().sendMulticast({
-        tokens: [tokenTouser],
-        notification: {
-          title: session.username,
-          body: data.message,
-        },
-      });
+      const reciever = await admin
+        .database()
+        .ref(`users/${data.touser}/info`)
+        .once("value")
+        .then((snapshot) => {
+          return snapshot.val();
+        });
+      if (!reciever) {
+        throw "Reciever is NOT exist";
+      }
+      try {
+        let message = `Hello ${reciever.name}, ${data.message}`;
+        await admin.messaging().sendMulticast({
+          tokens: [reciever.token],
+          notification: {
+            title: session.username,
+            body: message,
+          },
+        });
 
-      var today = new Date();
-      var date =
-        today.getFullYear() +
-        "-" +
-        (today.getMonth() + 1) +
-        "-" +
-        today.getDate();
-      var time =
-        today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var dateTime = date + " " + time;
-      await admin
+        await admin
+          .database()
+          .ref(`users/${session.username}/messages/${data.touser}/`)
+          .push()
+          .set({
+            date: dateTime,
+            touser: reciever.username,
+            name: reciever.name,
+            age: reciever.age,
+            message: message,
+          });
+        res.json({ status: "200" });
+      } catch (err) {
+        res.json({ error: "Cannot sent to device" });
+      }
+    } catch (err) {
+      return res.json({ error: err });
+    }
+  } else {
+    try {
+      const recievers = await admin
+        .database()
+        .ref(`users`)
+        .once("value")
+        .then((snapshot) => {
+          return snapshot.val();
+        });
+      if (!recievers) {
+        throw "not Exist";
+      }
+      const keys = Object.keys(recievers);
+      for (let index = 0; index < keys.length; index++) {
+        const key = keys[index];
+        if (
+          recievers[key].info &&
+          recievers[key].info.username != session.username
+        ) {
+          let age = recievers[key].info.age;
+          if (age >= data.from && age <= data.to) {
+            let message = `Hello ${recievers[key].info.name}, ${data.message}`;
+            await admin.messaging().sendMulticast({
+              tokens: [recievers[key].info.token],
+              notification: {
+                title: session.username,
+                body: message,
+              },
+            });
+            await admin
+              .database()
+              .ref(`users/${session.username}/messages/${key}`)
+              .push()
+              .set({
+                date: dateTime,
+                touser: recievers[key].info.username,
+                name: recievers[key].info.name,
+                age: recievers[key].info.age,
+                message: message,
+              });
+          }
+        }
+      }
+
+      let test = await admin
         .database()
         .ref(`users/${session.username}/messages`)
-        .push()
-        .set({
-          date: dateTime,
-          touser: data.touser,
-          message: data.message,
+        .once("value")
+        .then((snapshot) => {
+          return snapshot.val();
         });
+      console.log(await test);
+      return res.json({ status: "200" });
     } catch (err) {
-      console.log(err);
-      res.json({ error: "Cannot save on History" });
+      return res.json({ error: err });
     }
-
-    return res.json({ status: "signed" });
-  } catch (err) {
-    console.error(err);
-    return res.json({ error: "Reciever is NOT exist" });
   }
 });
 
-app.get("/gethistory", async(req, res)=>{
+app.post("/gethistory", async (req, res) => {
   const session = req.session;
-
+  const key = req.body.key;
   try {
-    const history = await admin
-      .database()
-      .ref(`users/${session.username}/messages`)
-      .once("value")
-      .then((snapshot) => {
-        console.log("User data: ", snapshot.val());
-        return snapshot.val();
-      });
-      return res.json(history);
+    if (key) {
+      const history = await admin
+        .database()
+        .ref(`users/${session.username}/messages/${key}`)
+        .once("value")
+        .then((snapshot) => {
+          return snapshot.val();
+        });
+      return res.json(await history);
+    } else {
+      const history = await admin
+        .database()
+        .ref(`users/${session.username}/messages`)
+        .once("value")
+        .then((snapshot) => {
+          return snapshot.val();
+        });
+      return res.json(await history);
     }
-  catch(err)
-  {
-    return res.json({error: "server error"})
+  } catch (err) {
+    return res.json({ error: "server error" });
   }
-})
+});
